@@ -14,7 +14,6 @@ const DEFAULT = {
     mortgageTerm: 30,
     downPayment: 10,
     homePriceGrowth: 3,
-    investmentRate: 4.0,
     rentGrowth: 2,
     inflation: 2,
     stampDuty: 3.2,
@@ -186,6 +185,15 @@ export default class Comparison extends React.Component {
                                          onChange={this.onFormSubmit.bind(this)}
                             />
 
+                            <SliderValue ref="arrangment"
+                                         info="Arragement Fees"
+                                         defaultValue={DEFAULT.arrangment}
+                                         step={100}
+                                         desc=""
+                                         min={1000} max={10000} type="£"
+                                         onChange={this.onFormSubmit.bind(this)}
+                            />
+
                             <h5>Maintainance</h5>
                             <SliderValue ref="maintainance"
                                          info="Home Maintainance"
@@ -196,6 +204,16 @@ export default class Comparison extends React.Component {
                                          onChange={this.onFormSubmit.bind(this)}
                             />
 
+
+                            <h5>Future</h5>
+                            <SliderValue ref="homePriceGrowth"
+                                         info="House Growth"
+                                         defaultValue={DEFAULT.homePriceGrowth}
+                                         step={0.1}
+                                         desc="%"
+                                         min={1} max={10} type=""
+                                         onChange={this.onFormSubmit.bind(this)}
+                            />
 
                         </div>
 
@@ -224,6 +242,27 @@ export default class Comparison extends React.Component {
                                          desc="%"
                                          min={1} max={10} type=""
                                          onChange={this.onFormSubmit.bind(this)} />
+                        </div>
+
+
+                        <div className="field-input ui segment">
+                            <div className="info">
+                                <span className="ui header">Investment</span>
+                                <span className="description">
+                                    Investment
+                                </span>
+                            </div>
+
+                            <SliderValue ref="rentDeposit"
+                                         defaultValue={DEFAULT.investmentReturns}
+                                         info="Your Deposit"
+                                         step={0.1}
+                                         type=""
+                                         desc="%"
+                                         min={1} max={100}
+                                         onChange={this.onFormSubmit.bind(this)}
+                            />
+
                         </div>
 
                     </form>

@@ -26,6 +26,7 @@ export default class SliderValue extends React.Component {
 
         return (
             <table className="ui very basic table">
+                <tbody>
                 <tr>
                     <td className="two wide column">
                         {info}
@@ -46,6 +47,8 @@ export default class SliderValue extends React.Component {
                         <span className="value max">{type + max.format() + desc}</span>
                     </td>
                 </tr>
+                </tbody>
+
             </table>
         )
     }
