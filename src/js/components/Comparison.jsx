@@ -5,8 +5,6 @@ import {rent} from '../lib/mortgage/rent';
 import ReactSlider from 'react-slider';
 import SliderValue from './SliderValue';
 
-const i10nEN = new Intl.NumberFormat("en-GB");
-
 const DEFAULT = {
     homeValue: 350000,
     duration: 7,
@@ -84,8 +82,8 @@ export default class Comparison extends React.Component {
                         </tr>
                         <tr>
                             <td>Initial Cost</td>
-                            <td>£{(this.state.mortgage.initialCost).format()}</td>
-                            <td>£{(this.state.rent.initialCost).format()}</td>
+                            <td>£{(this.state.mortgage.initialCost).format(2)}</td>
+                            <td>£{(this.state.rent.initialCost).format(2)}</td>
                         </tr>
                         <tr>
                             <td>Cash</td>
@@ -98,9 +96,8 @@ export default class Comparison extends React.Component {
 
                 <div className="simple values">
                     <form className="ui form" onSubmit={this.onFormSubmit.bind(this)}>
-                        <h4>Mortgage Details</h4>
 
-                        <div className="field-input">
+                        <div className="field-input ui segment">
                             <div className="info">
                                 <span className="ui header">Mortgage Details</span>
                                 <span className="description">
@@ -137,21 +134,40 @@ export default class Comparison extends React.Component {
 
                         </div>
 
-                        <div className="field-input">
+                        <div className="field-input ui segment">
                             <div className="info">
-                                <span className="ui header">Duration</span>
+                                <span className="ui header">Rent Details</span>
                                 <span className="description">
                                     How Long do you plan to stay?
                                 </span>
                             </div>
-                            <SliderValue ref="duration"
-                                         defaultValue={DEFAULT.mortgageTerm/2}
-                                         step={1}
-                                         type=""
-                                         desc=" years"
-                                         min={3} max={DEFAULT.mortgageTerm}
+                            <SliderValue ref="rent"
+                                         defaultValue={DEFAULT.rent}
+                                         info="Your Rent"
+                                         step={50}
+                                         type="£"
+                                         desc=""
+                                         min={950} max={DEFAULT.rent*4}
                                          onChange={this.onFormSubmit.bind(this)}
                             />
+
+                            <SliderValue ref="rentDeposit"
+                                         defaultValue={DEFAULT.rentDeposit}
+                                         info="Your Deposit"
+                                         step={0.5}
+                                         type="x"
+                                         desc=""
+                                         min={1} max={DEFAULT.rentDeposit*5}
+                                         onChange={this.onFormSubmit.bind(this)}
+                            />
+
+                            <SliderValue ref="rentGrowth"
+                                         info="Rental Growth"
+                                         defaultValue={DEFAULT.rentGrowth}
+                                         step={0.5}
+                                         desc="%"
+                                         min={1} max={10} type=""
+                                         onChange={this.onFormSubmit.bind(this)} />
                         </div>
 
                     </form>

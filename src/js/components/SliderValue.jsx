@@ -25,26 +25,28 @@ export default class SliderValue extends React.Component {
         const {defaultValue,min,max,step, desc, type, info} = this.props;
 
         return (
-            <div className="ui grid">
-                <div className="two wide column">
-                    {info}
-                </div>
-                <div className="two wide column">
-                    <span className="value min">{type + min.format() + desc}</span>
-                </div>
-                <div className="ten wide column">
-                    <div className="slide">
-                        <ReactSlider ref="homeValuex" defaultValue={defaultValue}
-                                     min={min} max={max} step={step}
-                                     onChange={this.onValueChanged.bind(this)} withBars>
-                            <div className="my-handle">{type + this.state.newVal.abbr(2) + desc}</div>
-                        </ReactSlider>
-                    </div>
-                </div>
-                <div className="two wide column">
-                    <span className="value max">{type + max.format() + desc}</span>
-                </div>
-            </div>
+            <table className="ui very basic table">
+                <tr>
+                    <td className="two wide column">
+                        {info}
+                    </td>
+                    <td className="two wide column">
+                        <span className="value min">{type + min.format() + desc}</span>
+                    </td>
+                    <td className="ten wide column">
+                        <div className="slide">
+                            <ReactSlider ref="homeValuex" defaultValue={defaultValue}
+                                         min={min} max={max} step={step}
+                                         onChange={this.onValueChanged.bind(this)} withBars>
+                                <div className="my-handle">{type + this.state.newVal.abbr(2) + desc}</div>
+                            </ReactSlider>
+                        </div>
+                    </td>
+                    <td className="two wide column">
+                        <span className="value max">{type + max.format() + desc}</span>
+                    </td>
+                </tr>
+            </table>
         )
     }
 }
