@@ -72,6 +72,7 @@ const mortgage = function (opts) {
         initialDeposit,
         totalCost,
         newHomeValue,
+        monthlyPayment,
         paidBack,
         profit,
         maintainanceCost,

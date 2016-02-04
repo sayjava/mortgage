@@ -41,6 +41,9 @@ export default class Comparison extends React.Component {
 
     update(newValue) {
         const mortgageCalc = mortgage(newValue);
+
+        // set the rent to monthly mortgage;
+        newValue.rent = mortgageCalc.monthlyPayment;
         const rentCalc = rent(newValue, mortgageCalc.initialCost);
 
         // update the cost here
@@ -86,6 +89,11 @@ export default class Comparison extends React.Component {
                             <td>£{(this.state.rent.initialCost).format(2)}</td>
                         </tr>
                         <tr>
+                            <td>Monthly Cost</td>
+                            <td>£{(this.state.mortgage.monthlyPayment).format(2)}</td>
+                            <td>£{(this.state.mortgage.monthlyPayment).format(2)}</td>
+                        </tr>
+                        <tr>
                             <td>Cash</td>
                             <td>£{(this.state.mortgage.cashAtHand).format(2)}</td>
                             <td>£{(this.state.rent.cashAtHand).format(2)}</td>
@@ -96,6 +104,24 @@ export default class Comparison extends React.Component {
 
                 <div className="simple values">
                     <form className="ui form" onSubmit={this.onFormSubmit.bind(this)}>
+
+                        <div className="field-input ui segment">
+                            <div className="info">
+                                <span className="ui header">Living Details</span>
+                                <span className="description">
+                                    How Long do you plan to stay at this location, This is very important
+                                </span>
+                            </div>
+                            <SliderValue ref="duration"
+                                         defaultValue={DEFAULT.duration}
+                                         info="Duration"
+                                         step={1}
+                                         type=""
+                                         desc=" Years"
+                                         min={5} max={DEFAULT.mortgageTerm}
+                                         onChange={this.onFormSubmit.bind(this)}
+                            />
+                        </div>
 
                         <div className="field-input ui segment">
                             <div className="info">
@@ -111,6 +137,15 @@ export default class Comparison extends React.Component {
                                          step={1000}
                                          desc=""
                                          min={125000} max={900000} type="£"
+                                         onChange={this.onFormSubmit.bind(this)}
+                            />
+
+                            <SliderValue ref="mortgageTerm"
+                                         info="Mortgage Term"
+                                         defaultValue={DEFAULT.mortgageTerm}
+                                         step={1}
+                                         desc=" years"
+                                         min={10} max={30} type=""
                                          onChange={this.onFormSubmit.bind(this)}
                             />
 
@@ -132,6 +167,36 @@ export default class Comparison extends React.Component {
                                          onChange={this.onFormSubmit.bind(this)}
                             />
 
+                            <h5>Fees</h5>
+                            <SliderValue ref="estateAgent"
+                                         info="Estate Agent Selling Fees"
+                                         defaultValue={DEFAULT.estateAgent}
+                                         step={0.1}
+                                         desc="%"
+                                         min={1} max={10} type=""
+                                         onChange={this.onFormSubmit.bind(this)}
+                            />
+
+                            <SliderValue ref="stampDuty"
+                                         info="Stamp Duty"
+                                         defaultValue={DEFAULT.stampDuty}
+                                         step={0.1}
+                                         desc="%"
+                                         min={1} max={15} type=""
+                                         onChange={this.onFormSubmit.bind(this)}
+                            />
+
+                            <h5>Maintainance</h5>
+                            <SliderValue ref="maintainance"
+                                         info="Home Maintainance"
+                                         defaultValue={DEFAULT.maintainance}
+                                         step={0.1}
+                                         desc="%"
+                                         min={1} max={10} type=""
+                                         onChange={this.onFormSubmit.bind(this)}
+                            />
+
+
                         </div>
 
                         <div className="field-input ui segment">
@@ -141,15 +206,6 @@ export default class Comparison extends React.Component {
                                     How Long do you plan to stay?
                                 </span>
                             </div>
-                            <SliderValue ref="rent"
-                                         defaultValue={DEFAULT.rent}
-                                         info="Your Rent"
-                                         step={50}
-                                         type="£"
-                                         desc=""
-                                         min={950} max={DEFAULT.rent*4}
-                                         onChange={this.onFormSubmit.bind(this)}
-                            />
 
                             <SliderValue ref="rentDeposit"
                                          defaultValue={DEFAULT.rentDeposit}
