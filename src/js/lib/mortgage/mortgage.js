@@ -58,22 +58,24 @@ const mortgage = function (opts) {
     const profit = leftover - initialDeposit;
 
 
-    console.log('Monthly Payment ', monthlyPayment);
+    /*console.log('Monthly Payment ', monthlyPayment);
     console.log('Mortgage Cost', mortgageCost);
     console.log('TOTAL COST ', totalCost);
     console.log('Home APPRECIATION ', newHomeValue);
     console.log('PRINCIPAL PAID', paidBack);
     console.log('Profit', profit);
-    console.log('Maintainance', maintainanceCost);
+    console.log('Maintainance', maintainanceCost);*/
 
 
     return {
+        initialCost: initialDeposit + buyingCost,
         initialDeposit,
         totalCost,
         newHomeValue,
         paidBack,
         profit,
-        maintainanceCost
+        maintainanceCost,
+        cashAtHand: profit + initialDeposit
     }
 };
 

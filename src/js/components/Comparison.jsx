@@ -3,12 +3,15 @@ import Rent from './Rent';
 import {mortgage} from '../lib/mortgage/mortgage';
 import {rent} from '../lib/mortgage/rent';
 import ReactSlider from 'react-slider';
+import SliderValue from './SliderValue';
 
 const i10nEN = new Intl.NumberFormat("en-GB");
 
 const DEFAULT = {
     homeValue: 350000,
     duration: 7,
+    rent: 1000,
+    insurance: 2,
     mortgageRate: 3.87,
     mortgageTerm: 30,
     downPayment: 10,
@@ -28,23 +31,24 @@ const DEFAULT = {
     langRegistry: 120,
     leaseHold: 90,
     rentDeposit: 2,
-    maintainance: 1
+    maintainance: 1,
+    investmentReturns: 4
 };
 
 export default class Comparison extends React.Component {
 
     componentWillMount() {
-        this.setState({
-            mortgage: mortgage(DEFAULT),
-            values: DEFAULT
-        });
+        this.update(DEFAULT);
     }
 
     update(newValue) {
+        const mortgageCalc = mortgage(newValue);
+        const rentCalc = rent(newValue, mortgageCalc.initialCost);
+
         // update the cost here
         this.setState({
-            mortgage: mortgage(newValue),
-            rent: rent(newValue),
+            mortgage: mortgageCalc,
+            rent: rentCalc,
             values: newValue
         });
     }
@@ -55,229 +59,102 @@ export default class Comparison extends React.Component {
 
         Object.keys(DEFAULT).forEach((key) => {
             if (self.refs[key]) {
-                newValue[key] = parseFloat(self.refs[key].value);
+                newValue[key] = parseFloat(self.refs[key].getValue());
             }
         });
 
-        newValue.homeValue = this.refs.homeValuex.getValue();
-
         this.update(newValue);
-
         evt.preventDefault ? evt.preventDefault() : '';
     }
 
     render() {
 
-        //TODO fix this mess
-        function renderTcikers(min, max, step) {
-
-            let values = Number.range(min, max).every(step);
-            let percent = 100 / values.length;
-
-            console.log('PERCENT', percent, values.length, values);
-
-            return values.map(function (v, index) {
-                let style = {
-                    padding: `0 ${(percent) / 4}%`
-                };
-                return (
-                    <span className="ticker" style={style}>
-                       <span className="value">{v.abbr()}</span>
-                       <span className="line"></span>
-                   </span>
-                )
-            })
-        }
+        console.log(this.state.mortgage, this.state.rent);
 
         return (
             <div className="calculator">
+
+                <div className="results">
+                    <table className="ui very basic table">
+                        <tbody>
+                        <tr>
+                            <td>In {this.state.values.duration} years</td>
+                            <td>Mortgage</td>
+                            <td>Rent</td>
+                        </tr>
+                        <tr>
+                            <td>Initial Cost</td>
+                            <td>£{(this.state.mortgage.initialCost).format()}</td>
+                            <td>£{(this.state.rent.initialCost).format()}</td>
+                        </tr>
+                        <tr>
+                            <td>Cash</td>
+                            <td>£{(this.state.mortgage.cashAtHand).format(2)}</td>
+                            <td>£{(this.state.rent.cashAtHand).format(2)}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
                 <div className="simple values">
                     <form className="ui form" onSubmit={this.onFormSubmit.bind(this)}>
-
                         <h4>Mortgage Details</h4>
-
-                        <div className="two fields">
-                            <div className="field value-input">
-                                <div className="header">
-                                    <p>Home Price</p>
-                                </div>
-                                <div className="ui left labeled input">
-                                    <div className="ui basic label">&pound;</div>
-                                    <input ref="homeValue" type="text" defaultValue={i10nEN.format(DEFAULT.homeValue)}
-                                           onBlur={this.onFormSubmit.bind(this)}/>
-                                </div>
-                            </div>
-                        </div>
 
                         <div className="field-input">
                             <div className="info">
-                                <span className="ui header">Home Price</span>
+                                <span className="ui header">Mortgage Details</span>
                                 <span className="description">
                                     A very important factor, but not the only one. Our estimate will
                                     improve as you enter more details below.
                                 </span>
                             </div>
-                            <div className="ui grid">
-                                <div className="two wide column">
-                                    <span className="value min">£{(125000).abbr()}</span>
-                                </div>
-                                <div className="twelve wide column">
-                                    <div className="slide">
-                                        <ReactSlider ref="homeValuex" defaultValue={DEFAULT.homeValue}
-                                                     min={100000} max={900000} step={1000}
-                                                     onChange={this.onFormSubmit.bind(this)} withBars>
-                                            <div className="my-handle">{this.state.values.homeValue.abbr()}</div>
-                                        </ReactSlider>
-                                    </div>
-                                </div>
-                                <div className="two wide column">
-                                    <span className="value max">£{(900000).abbr()}</span>
-                                </div>
-                            </div>
-                        </div>
+                            <SliderValue ref="homeValue"
+                                         info="Home Value"
+                                         defaultValue={DEFAULT.homeValue}
+                                         step={1000}
+                                         desc=""
+                                         min={125000} max={900000} type="£"
+                                         onChange={this.onFormSubmit.bind(this)}
+                            />
 
+                            <SliderValue ref="mortgageRate"
+                                         info="Mortgate Rate"
+                                         defaultValue={DEFAULT.mortgageRate}
+                                         step={0.01}
+                                         desc="%"
+                                         min={2} max={10} type=""
+                                         onChange={this.onFormSubmit.bind(this)}
+                            />
 
-                        <div className="field">
-                            <div>
-                                <p>How Long Do you plany to Stay</p>
-                            </div>
-                            <div className="ui right labeled input">
-                                <input ref="duration" type="text" defaultValue={DEFAULT.duration}
-                                       onBlur={this.onFormSubmit.bind(this)}/>
-                                <div className="ui basic label">Years</div>
-                            </div>
-                        </div>
-
-                        <div>
-
-                            <div className="field">
-                                <span>Mortage Rate</span>
-                                <div className="ui right labeled input">
-                                    <input ref="mortgageRate" type="text" defaultValue={DEFAULT.mortgageRate}
-                                           onBlur={this.onFormSubmit.bind(this)}/>
-                                    <div className="ui basic label">%</div>
-                                </div>
-                            </div>
-
-                            <div className="field">
-                                <span>Down Payment</span>
-                                <div className="ui right labeled input">
-                                    <input ref="downPayment" type="text" defaultValue={DEFAULT.downPayment}
-                                           onBlur={this.onFormSubmit.bind(this)}/>
-                                    <div className="ui basic label">%</div>
-                                </div>
-                            </div>
-
-                            <div className="field">
-                                <span>Mortgage Term</span>
-                                <div className="ui right labeled input">
-                                    <input ref="mortgageTerm" type="text" defaultValue={DEFAULT.mortgageTerm}
-                                           onBlur={this.onFormSubmit.bind(this)}/>
-                                    <div className="ui basic label">%</div>
-                                </div>
-                            </div>
+                            <SliderValue ref="downPayment"
+                                         info="Mortgage Deposit"
+                                         defaultValue={DEFAULT.downPayment}
+                                         step={1}
+                                         desc="%"
+                                         min={5} max={60} type=""
+                                         onChange={this.onFormSubmit.bind(this)}
+                            />
 
                         </div>
 
-                        <div>
-                            <h4>Future</h4>
-
-                            <div className="field">
-                                <space>Home Value Growth</space>
-                                <div className="ui right labeled input">
-                                    <input ref="homePriceGrowth" type="text" defaultValue={DEFAULT.homePriceGrowth}
-                                           onBlur={this.onFormSubmit.bind(this)}/>
-                                    <div className="ui basic label">%</div>
-                                </div>
+                        <div className="field-input">
+                            <div className="info">
+                                <span className="ui header">Duration</span>
+                                <span className="description">
+                                    How Long do you plan to stay?
+                                </span>
                             </div>
-
-                            <div className="field">
-                                <span>Rental Growth</span>
-                                <div className="ui right labeled input">
-                                    <input ref="rentGrowth" type="text" defaultValue={DEFAULT.rentGrowth}
-                                           onBlur={this.onFormSubmit.bind(this)}/>
-                                    <div className="ui basic label">%</div>
-                                </div>
-                            </div>
-
-                            <div className="field">
-                                <span>Inflation</span>
-                                <div className="ui right labeled input">
-                                    <input ref="inflation" type="text" defaultValue={DEFAULT.inflation}
-                                           onBlur={this.onFormSubmit.bind(this)}/>
-                                    <div className="ui basic label">%</div>
-                                </div>
-                            </div>
-
-                            <div className="field">
-                                <span>Investment Rate</span>
-                                <div className="ui right labeled input">
-                                    <input ref="inflation" type="text" defaultValue={DEFAULT.investmentRate}
-                                           onBlur={this.onFormSubmit.bind(this)}/>
-                                    <div className="ui basic label">%</div>
-                                </div>
-                            </div>
-
+                            <SliderValue ref="duration"
+                                         defaultValue={DEFAULT.mortgageTerm/2}
+                                         step={1}
+                                         type=""
+                                         desc=" years"
+                                         min={3} max={DEFAULT.mortgageTerm}
+                                         onChange={this.onFormSubmit.bind(this)}
+                            />
                         </div>
 
-                        <div>
-                            <h4>Expenses</h4>
-                            <div className="field">
-                                <span>Stamp Duty</span>
-                                <div className="ui right labeled input">
-                                    <input ref="stampDuty" type="text" defaultValue={DEFAULT.stampDuty}
-                                           onBlur={this.onFormSubmit.bind(this)}/>
-                                    <div className="ui basic label">%</div>
-                                </div>
-                            </div>
-
-                            <div className="field">
-                                <span>Selling Estate Fees</span>
-                                <div className="ui right labeled input">
-                                    <input ref="estateAgent" type="text" defaultValue={DEFAULT.estateAgent}
-                                           onBlur={this.onFormSubmit.bind(this)}/>
-                                    <div className="ui basic label">%</div>
-                                </div>
-                            </div>
-
-                            <div className="field">
-                                <span>Land Registry</span>
-                                <div className="ui right labeled input">
-                                    <input ref="langRegistry" type="text" defaultValue={DEFAULT.langRegistry}
-                                           onBlur={this.onFormSubmit.bind(this)}/>
-                                    <div className="ui basic label">%</div>
-                                </div>
-                            </div>
-
-                            <div className="field">
-                                <span>Mortgage Fees</span>
-                                <div className="ui right labeled input">
-                                    <input ref="arrangement" type="text" defaultValue={DEFAULT.arrangment}
-                                           onBlur={this.onFormSubmit.bind(this)}/>
-                                    <div className="ui basic label">%</div>
-                                </div>
-                            </div>
-
-                            <div className="field">
-                                <span>Maintainance</span>
-                                <div className="ui right labeled input">
-                                    <input ref="maintainance" type="text" defaultValue={DEFAULT.maintainance}
-                                           onBlur={this.onFormSubmit.bind(this)}/>
-                                    <div className="ui basic label">%</div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <input type="submit"/>
                     </form>
-                </div>
-
-                <div>
-                    <Rent />
-                    <div className="breakdown">
-
-                    </div>
                 </div>
             </div>
         )
