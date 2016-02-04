@@ -1,0 +1,36 @@
+body {
+  background-color: #f3f3f3;
+}
+
+.flatten {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.ui.vertical.menu {
+  @extend .flatten;
+}
+
+.ui.segment, .ui.segments {
+  @extend .flatten;
+}
+
+.ui.table {
+  @extend .flatten;
+}
+
+.ui.cards {
+  >.card {
+    @extend .flatten;
+  }
+}
+
+.ui.button, .ui.button.active {
+  @extend .flatten;
+}
+
+.ui.form {
+  input[type="text"], input[type="number"] {
+    @extend .flatten;
+  }
+}
