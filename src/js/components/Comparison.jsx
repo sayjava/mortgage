@@ -2,6 +2,9 @@ import React from 'react';
 import Rent from './Rent';
 import {mortgage} from '../lib/mortgage/mortgage';
 import {rent} from '../lib/mortgage/rent';
+import ReactSlider from 'react-slider';
+
+const i10nEN = new Intl.NumberFormat("en-GB");
 
 const DEFAULT = {
     homeValue: 350000,
@@ -19,7 +22,7 @@ const DEFAULT = {
     epc: 120,
     valuation: 300,
     arrangment: 1300,
-    survey:600,
+    survey: 600,
     searches: 200,
     transfer: 35,
     langRegistry: 120,
@@ -32,19 +35,17 @@ export default class Comparison extends React.Component {
 
     componentWillMount() {
         this.setState({
-            homeValue: DEFAULT.homeValue,
-            duration: DEFAULT.duration,
-            mortgage: mortgage(DEFAULT)
+            mortgage: mortgage(DEFAULT),
+            values: DEFAULT
         });
-
-        //console.log('MORTGAGE ----------> ', mortgage(DEFAULT));
     }
 
     update(newValue) {
         // update the cost here
         this.setState({
             mortgage: mortgage(newValue),
-            rent: rent(newValue)
+            rent: rent(newValue),
+            values: newValue
         });
     }
 
@@ -58,26 +59,83 @@ export default class Comparison extends React.Component {
             }
         });
 
+        newValue.homeValue = this.refs.homeValuex.getValue();
+
         this.update(newValue);
-        evt.preventDefault();
+
+        evt.preventDefault ? evt.preventDefault() : '';
     }
 
     render() {
-        return (
-            <div className="ui segment">
 
+        //TODO fix this mess
+        function renderTcikers(min, max, step) {
+
+            let values = Number.range(min, max).every(step);
+            let percent = 100 / values.length;
+
+            console.log('PERCENT', percent, values.length, values);
+
+            return values.map(function (v, index) {
+                let style = {
+                    padding: `0 ${(percent) / 4}%`
+                };
+                return (
+                    <span className="ticker" style={style}>
+                       <span className="value">{v.abbr()}</span>
+                       <span className="line"></span>
+                   </span>
+                )
+            })
+        }
+
+        return (
+            <div className="calculator">
                 <div className="simple values">
                     <form className="ui form" onSubmit={this.onFormSubmit.bind(this)}>
-                        <div className="field">
-                            <div>
-                                <p>Home Price</p>
-                            </div>
-                            <div className="ui left labeled input">
-                                <div className="ui label">&pound;</div>
-                                <input ref="homeValue" type="text" defaultValue={DEFAULT.homeValue}
-                                       onBlur={this.onFormSubmit.bind(this)}/>
+
+                        <h4>Mortgage Details</h4>
+
+                        <div className="two fields">
+                            <div className="field value-input">
+                                <div className="header">
+                                    <p>Home Price</p>
+                                </div>
+                                <div className="ui left labeled input">
+                                    <div className="ui basic label">&pound;</div>
+                                    <input ref="homeValue" type="text" defaultValue={i10nEN.format(DEFAULT.homeValue)}
+                                           onBlur={this.onFormSubmit.bind(this)}/>
+                                </div>
                             </div>
                         </div>
+
+                        <div className="field-input">
+                            <div className="info">
+                                <span className="ui header">Home Price</span>
+                                <span className="description">
+                                    A very important factor, but not the only one. Our estimate will
+                                    improve as you enter more details below.
+                                </span>
+                            </div>
+                            <div className="ui grid">
+                                <div className="two wide column">
+                                    <span className="value min">£{(125000).abbr()}</span>
+                                </div>
+                                <div className="twelve wide column">
+                                    <div className="slide">
+                                        <ReactSlider ref="homeValuex" defaultValue={DEFAULT.homeValue}
+                                                     min={100000} max={900000} step={1000}
+                                                     onChange={this.onFormSubmit.bind(this)} withBars>
+                                            <div className="my-handle">{this.state.values.homeValue.abbr()}</div>
+                                        </ReactSlider>
+                                    </div>
+                                </div>
+                                <div className="two wide column">
+                                    <span className="value max">£{(900000).abbr()}</span>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div className="field">
                             <div>
@@ -91,7 +149,6 @@ export default class Comparison extends React.Component {
                         </div>
 
                         <div>
-                            <h4>Mortgage Details</h4>
 
                             <div className="field">
                                 <span>Mortage Rate</span>
@@ -213,12 +270,14 @@ export default class Comparison extends React.Component {
                         </div>
 
                         <input type="submit"/>
-
                     </form>
                 </div>
 
                 <div>
                     <Rent />
+                    <div className="breakdown">
+
+                    </div>
                 </div>
             </div>
         )

@@ -1,9 +1,10 @@
 @import "semantic";
 @import "base";
+@import "form";
 
 .calculator-content {
   .calculator {
-    width: 400px;
+    width: 800px;
     padding: 30px;
   }
 }

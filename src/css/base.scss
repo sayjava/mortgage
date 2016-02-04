@@ -11,7 +11,7 @@ body {
   @extend .flatten;
 }
 
-.ui.segment, .ui.segments {
+.ui.segment, .ui.grid.segment, .ui.segments {
   @extend .flatten;
 }
 
@@ -31,6 +31,10 @@ body {
 
 .ui.form {
   input[type="text"], input[type="number"] {
+    @extend .flatten;
+  }
+
+  .ui.label {
     @extend .flatten;
   }
 }

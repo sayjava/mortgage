@@ -23,7 +23,7 @@ global.paths = {
     // react components
     'components': './src/js/**/*.jsx',
     // SASS sources.
-    'sass': './src/css/main.scss',
+    'sass': './src/css/*.scss',
     // Image sources.
     'img': './src/img/*',
     // Font Resources
