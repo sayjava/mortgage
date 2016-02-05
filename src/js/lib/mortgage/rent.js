@@ -28,7 +28,7 @@ const rent = function (opts, initialMortgageCost) {
         initialCost: opts.rentDeposit * opts.rent,
         totalCost: opts.duration * 12 * opts.rent,
         deposit: opts.insurance * opts.rent,
-        cashAtHand: profit - excessOfMortgage
+        profit: profit - excessOfMortgage
     };
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import Rent from './Rent';
+import Summary from './Summary';
 import {mortgage} from '../lib/mortgage/mortgage';
 import {rent} from '../lib/mortgage/rent';
 import ReactSlider from 'react-slider';
@@ -29,7 +29,7 @@ const DEFAULT = {
     leaseHold: 90,
     rentDeposit: 2,
     maintainance: 1,
-    investmentReturns: 4
+    investmentReturns: 2
 };
 
 export default class Comparison extends React.Component {
@@ -95,12 +95,13 @@ export default class Comparison extends React.Component {
                             </tr>
                             <tr>
                                 <td>Cash</td>
-                                <td>£{(this.state.mortgage.cashAtHand).format(2)}</td>
-                                <td>£{(this.state.rent.cashAtHand).format(2)}</td>
+                                <td>£{(this.state.mortgage.profit).format(2)}</td>
+                                <td>£{(this.state.rent.profit).format(2)}</td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
+                    <Summary rent={this.state.rent} mortgage={this.state.mortgage} values={this.state.values} />
                 </div>
 
                 <div className="simple values">
@@ -118,6 +119,7 @@ export default class Comparison extends React.Component {
                             <SliderValue ref="duration"
                                          defaultValue={DEFAULT.duration}
                                          info="Duration"
+                                         meta="How long do you plan to stay in the house?"
                                          step={1}
                                          type=""
                                          desc=" Years"
@@ -138,6 +140,7 @@ export default class Comparison extends React.Component {
                         <div className="ui segment">
                             <SliderValue ref="homeValue"
                                          info="Home Value"
+                                         meta="Whats the price of this house"
                                          defaultValue={DEFAULT.homeValue}
                                          step={5000}
                                          desc=""

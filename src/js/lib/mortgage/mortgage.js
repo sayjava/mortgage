@@ -77,7 +77,7 @@ const mortgage = function (opts) {
         profit,
         stampValue,
         maintainanceCost,
-        cashAtHand: profit + initialDeposit
+        profit: profit + initialDeposit
     }
 };
 

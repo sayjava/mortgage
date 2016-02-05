@@ -1,0 +1,18 @@
+.calc-results {
+  position: fixed;
+  top: 400px;
+  right: 5%;
+  width: 20%;
+
+  >.ui.segment {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .summary {
+    .text {
+      font-size: 14px;
+    }
+  }
+
+}

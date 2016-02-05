@@ -1,3 +1,5 @@
+@import "colours";
+
 body {
   background-color: #f3f3f3;
 }
@@ -20,7 +22,7 @@ body {
 }
 
 .ui.cards {
-  >.card {
+  > .card {
     @extend .flatten;
   }
 }
@@ -36,5 +38,30 @@ body {
 
   .ui.label {
     @extend .flatten;
+  }
+}
+
+.page {
+  width: 100%;
+  height: 100%;
+
+  .top {
+    width: 100%;
+    height: 400px;
+    background: $theme_colour;
+    color: #FFF;
+
+    .intro {
+      padding: 20px 0;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    .text {
+      font-size: 16px;
+      line-height: 24px;
+      width: 600px;
+      margin: auto;
+    }
   }
 }
