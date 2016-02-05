@@ -253,7 +253,7 @@ export default class Comparison extends React.Component {
                                 </span>
                             </div>
 
-                            <SliderValue ref="rentDeposit"
+                            <SliderValue ref="investmentReturns"
                                          defaultValue={DEFAULT.investmentReturns}
                                          info="Your Deposit"
                                          step={0.1}
