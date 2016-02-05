@@ -20,6 +20,7 @@ System.config({
     "formula": "npm:formula@0.0.2-beta2",
     "history": "npm:history@1.17.0",
     "palantir/plottable": "github:palantir/plottable@1.16.2",
+    "rc-slider": "npm:rc-slider@3.3.2",
     "react": "npm:react@0.14.7",
     "react-dom": "npm:react-dom@0.14.7",
     "react-highcharts": "npm:react-highcharts@5.0.6",
@@ -46,6 +47,9 @@ System.config({
     },
     "github:jspm/nodelibs-util@0.1.0": {
       "util": "npm:util@0.10.3"
+    },
+    "npm:add-dom-event-listener@1.0.1": {
+      "object-assign": "npm:object-assign@4.0.1"
     },
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
@@ -103,6 +107,11 @@ System.config({
       "loose-envify": "npm:loose-envify@1.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:lodash.keys@3.1.2": {
+      "lodash._getnative": "npm:lodash._getnative@3.9.1",
+      "lodash.isarguments": "npm:lodash.isarguments@3.0.6",
+      "lodash.isarray": "npm:lodash.isarray@3.0.4"
+    },
     "npm:loose-envify@1.1.0": {
       "js-tokens": "npm:js-tokens@1.0.2",
       "process": "github:jspm/nodelibs-process@0.1.2",
@@ -117,6 +126,33 @@ System.config({
     },
     "npm:query-string@3.0.0": {
       "strict-uri-encode": "npm:strict-uri-encode@1.1.0"
+    },
+    "npm:rc-align@2.2.0": {
+      "dom-align": "npm:dom-align@1.3.0",
+      "rc-util": "npm:rc-util@3.1.2"
+    },
+    "npm:rc-animate@2.0.3": {
+      "css-animation": "npm:css-animation@1.1.1"
+    },
+    "npm:rc-slider@3.3.2": {
+      "classnames": "npm:classnames@2.2.3",
+      "object-assign": "npm:object-assign@4.0.1",
+      "rc-tooltip": "npm:rc-tooltip@3.3.1",
+      "rc-util": "npm:rc-util@3.1.2"
+    },
+    "npm:rc-tooltip@3.3.1": {
+      "rc-trigger": "npm:rc-trigger@1.1.1"
+    },
+    "npm:rc-trigger@1.1.1": {
+      "rc-align": "npm:rc-align@2.2.0",
+      "rc-animate": "npm:rc-animate@2.0.3",
+      "rc-util": "npm:rc-util@3.1.2"
+    },
+    "npm:rc-util@3.1.2": {
+      "add-dom-event-listener": "npm:add-dom-event-listener@1.0.1",
+      "classnames": "npm:classnames@2.2.3",
+      "shallowequal": "npm:shallowequal@0.2.2",
+      "util-deprecate": "npm:util-deprecate@1.0.2"
     },
     "npm:react-dom@0.14.7": {
       "react": "npm:react@0.14.7"
@@ -155,6 +191,9 @@ System.config({
       "stream-browserify": "npm:stream-browserify@1.0.0",
       "string_decoder": "npm:string_decoder@0.10.31"
     },
+    "npm:shallowequal@0.2.2": {
+      "lodash.keys": "npm:lodash.keys@3.1.2"
+    },
     "npm:stream-browserify@1.0.0": {
       "events": "github:jspm/nodelibs-events@0.1.1",
       "inherits": "npm:inherits@2.0.1",
@@ -165,6 +204,9 @@ System.config({
     },
     "npm:sugar@1.4.1": {
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:util-deprecate@1.0.2": {
+      "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:util@0.10.3": {
       "inherits": "npm:inherits@2.0.1",

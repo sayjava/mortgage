@@ -14,6 +14,7 @@
       "formula": "npm:formula@^0.0.2-beta2",
       "history": "npm:history@^1.13.1",
       "palantir/plottable": "github:palantir/plottable@^1.16.2",
+      "rc-slider": "npm:rc-slider@^3.3.2",
       "react": "npm:react@^0.14.2",
       "react-dom": "npm:react-dom@^0.14.2",
       "react-highcharts": "npm:react-highcharts@^5.0.6",

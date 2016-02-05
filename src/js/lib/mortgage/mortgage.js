@@ -75,6 +75,7 @@ const mortgage = function (opts) {
         monthlyPayment,
         paidBack,
         profit,
+        stampValue,
         maintainanceCost,
         cashAtHand: profit + initialDeposit
     }

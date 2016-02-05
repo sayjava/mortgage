@@ -34,7 +34,7 @@ export default class SliderValue extends React.Component {
     }
 
     render() {
-        const {defaultValue,min,max, desc, type, info} = this.props;
+        const {defaultValue,min,max, desc, type, info, meta} = this.props;
 
         function tipFormatter(val) {
             return `${type}${val.format()}${desc}`;
@@ -43,10 +43,11 @@ export default class SliderValue extends React.Component {
         return (
             <div className="slider-input">
                 <div className="ui grid">
-                    <div className="four wide column">
-                        {info}
+                    <div className="five wide column">
+                        <span className="info">{info}</span>
+                        <span className="meta">{meta}</span>
                     </div>
-                    <div className="eleven wide column">
+                    <div className="ten wide column">
                         <div className="slide">
                             <Slider defaultValue={defaultValue}
                                     tipFormatter={tipFormatter}
