@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactSlider from 'react-slider';
+import Slider from 'rc-slider';
 
 export default class SliderValue extends React.Component {
 
@@ -21,35 +22,45 @@ export default class SliderValue extends React.Component {
         return this.state.newVal;
     }
 
+    getMarks() {
+        let {min, max, desc, type} = this.props;
+        let marks = {};
+        Number.range(min, max).every((max - min) / 4, function (val) {
+            let value = Math.round(val);
+            marks[value] = `${type}${value.abbr()}${desc}`;
+        });
+
+        return marks;
+    }
+
     render() {
-        const {defaultValue,min,max,step, desc, type, info} = this.props;
+        const {defaultValue,min,max, desc, type, info} = this.props;
+
+        function tipFormatter(val) {
+            return `${type}${val.format()}${desc}`;
+        }
 
         return (
-            <table className="ui very basic table">
-                <tbody>
-                <tr>
-                    <td className="two wide column">
+            <div className="slider-input">
+                <div className="ui grid">
+                    <div className="four wide column">
                         {info}
-                    </td>
-                    <td className="two wide column">
-                        <span className="value min">{type + min.format() + desc}</span>
-                    </td>
-                    <td className="ten wide column">
+                    </div>
+                    <div className="eleven wide column">
                         <div className="slide">
-                            <ReactSlider ref="homeValuex" defaultValue={defaultValue}
-                                         min={min} max={max} step={step}
-                                         onChange={this.onValueChanged.bind(this)} withBars>
+                            <Slider defaultValue={defaultValue}
+                                    tipFormatter={tipFormatter}
+                                    min={min} max={max}
+                                    marks={this.getMarks()}
+                                    included={false}
+                                    onChange={this.onValueChanged.bind(this)} withBars>
                                 <div className="my-handle">{type + this.state.newVal.abbr(2) + desc}</div>
-                            </ReactSlider>
+                            </Slider>
                         </div>
-                    </td>
-                    <td className="two wide column">
-                        <span className="value max">{type + max.format() + desc}</span>
-                    </td>
-                </tr>
-                </tbody>
+                    </div>
+                </div>
+            </div>
 
-            </table>
         )
     }
 }
