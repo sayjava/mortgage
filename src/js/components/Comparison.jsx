@@ -4,6 +4,8 @@ import {mortgage} from '../lib/mortgage/mortgage';
 import {rent} from '../lib/mortgage/rent';
 import SliderValue from './SliderValue.jsx';
 
+import Sticky from 'react-sticky';
+
 const DEFAULT = {
     homeValue: 350000,
     duration: 7,
@@ -52,6 +54,13 @@ export default class Comparison extends React.Component {
         });
     }
 
+    handleStickyStateChange(floating) {
+        /*  this.setState({
+         floating,
+         });
+         console.log(arguments);*/
+    }
+
     onFormSubmit(evt) {
         let newValue = JSON.parse(JSON.stringify(DEFAULT));
         let self = this;
@@ -70,11 +79,33 @@ export default class Comparison extends React.Component {
 
         //console.log(this.state.mortgage, this.state.rent);
 
+        const customStyleObject = {
+            position: 'fixed',
+            top: '0',
+            left: 0,
+            right: 0,
+            marginLeft:'auto',
+            marginRight: 'auto',
+            width: '91.5%'
+        };
+
+        const defaultStyle = {
+            width: '100%',
+            top: '400px',
+            zIndex: 1000
+        }
+
         return (
             <div className="calculator">
 
-                <div className="calc-results">
+                <Sticky stickyStyle={customStyleObject} style={defaultStyle} topOffset={200}
+                        stickyClass="stickySummary"
+                        onStickyStateChange={this.handleStickyStateChange.bind(this)}>
+
                     <div className="ui segment">
+                        <div className="ui header">
+                            The Numbers
+                        </div>
                         <table className="ui very basic table">
                             <tbody>
                             <tr>
@@ -99,9 +130,11 @@ export default class Comparison extends React.Component {
                             </tr>
                             </tbody>
                         </table>
+                        <Summary rent={this.state.rent} mortgage={this.state.mortgage} values={this.state.values}/>
                     </div>
-                    <Summary rent={this.state.rent} mortgage={this.state.mortgage} values={this.state.values} />
-                </div>
+
+                </Sticky>
+
 
                 <div className="simple values">
 
@@ -287,6 +320,8 @@ export default class Comparison extends React.Component {
                     </div>
 
                 </div>
+
+
             </div>
         )
     }
