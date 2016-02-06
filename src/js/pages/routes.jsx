@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route } from 'react-router';
 
-import Home from './Home/Home';
+import Home from './Home/Home.jsx';
 
 function initialiseView() {
     ReactDOM.render(<Router>

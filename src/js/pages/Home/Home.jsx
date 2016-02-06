@@ -1,6 +1,6 @@
 import React from 'react';
-import Amortization from '../../components/Mortgage';
-import Comparison from '../../components/Comparison';
+import Amortization from '../../components/Mortgage.jsx';
+import Comparison from '../../components/Comparison.jsx';
 export default class Home extends React.Component {
 
     constructor(props) {

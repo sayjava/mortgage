@@ -1,5 +1,5 @@
 const Finance = require('../finance');
-import {compoundInterest} from './utils';
+var compoundInterest = require('./utils').compoundInterest;
 
 const mortgage = function (opts) {
 

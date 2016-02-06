@@ -19,7 +19,7 @@ global.paths = {
     // HTML sources.
     'html': './src/*.html',
     // JS sources.
-    'js': ['./src/js/**/*.js', './src/js/**/*.jsx'],
+    'js': ['./src/main.js','./src/js/**/*.js', './src/js/**/*.jsx'],
     // react components
     'components': './src/js/**/*.jsx',
     // SASS sources.
@@ -47,6 +47,7 @@ gulp.task('js-libs', function () {
 // copy the config
 gulp.task('js-config', function () {
     gulp.src(['./src/config.js']).pipe(gulp.dest(global.paths.dist));
+    gulp.src(['./src/main.js']).pipe(gulp.dest(global.paths.dist));
 });
 
 // Default task; start local server & watch for changes.

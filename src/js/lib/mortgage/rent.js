@@ -1,4 +1,4 @@
-import {compoundInterest} from './utils';
+var compoundInterest = require('./utils').compoundInterest;
 const rent = function (opts, initialMortgageCost) {
 
     const initialRentCost = opts.rentDeposit * opts.rent;

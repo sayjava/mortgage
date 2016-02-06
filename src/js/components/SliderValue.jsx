@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactSlider from 'react-slider';
 import Slider from 'rc-slider';
 
 export default class SliderValue extends React.Component {

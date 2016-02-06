@@ -1,9 +1,8 @@
 import React from 'react';
-import Summary from './Summary';
+import Summary from './Summary.jsx';
 import {mortgage} from '../lib/mortgage/mortgage';
 import {rent} from '../lib/mortgage/rent';
-import ReactSlider from 'react-slider';
-import SliderValue from './SliderValue';
+import SliderValue from './SliderValue.jsx';
 
 const DEFAULT = {
     homeValue: 350000,
