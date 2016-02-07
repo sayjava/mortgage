@@ -67,7 +67,7 @@ export default class Comparison extends React.Component {
 
         Object.keys(DEFAULT).forEach((key) => {
             if (self.refs[key]) {
-                newValue[key] = parseFloat(self.refs[key].getValue());
+                newValue[key] = (self.refs[key].getValue());
             }
         });
 
@@ -78,7 +78,7 @@ export default class Comparison extends React.Component {
     render() {
 
         //console.log(this.state.mortgage, this.state.rent);
-        let {mortgage,rent} = this.state;
+        let {mortgage,rent,values} = this.state;
 
         const customStyleObject = {
             position: 'fixed',
@@ -110,7 +110,7 @@ export default class Comparison extends React.Component {
                             <div className="ui segment">
                                 <SliderValue ref="duration"
                                              defaultValue={DEFAULT.duration}
-                                             info="Duration of stay"
+                                             info={`Duration of stay ${values.duration} years`}
                                              meta="How long do you plan to stay in the house?"
                                              step={1}
                                              type=""
@@ -131,7 +131,7 @@ export default class Comparison extends React.Component {
 
                             <div className="ui segment">
                                 <SliderValue ref="homeValue"
-                                             info="Home Value"
+                                             info={`Home Value at £${values.homeValue.abbr()}`}
                                              meta="Whats is the current advertised price of this house?"
                                              defaultValue={DEFAULT.homeValue}
                                              step={5000}
@@ -141,7 +141,7 @@ export default class Comparison extends React.Component {
                                 />
 
                                 <SliderValue ref="mortgageTerm"
-                                             info="Mortgage Term"
+                                             info={`Mortgage Term of ${values.mortgageTerm} years`}
                                              meta="How long is the mortgage for?"
                                              defaultValue={DEFAULT.mortgageTerm}
                                              step={1}
@@ -151,7 +151,7 @@ export default class Comparison extends React.Component {
                                 />
 
                                 <SliderValue ref="mortgageRate"
-                                             info="Rate"
+                                             info={`Interest Rate APR at ${values.mortgageRate}%`}
                                              meta="What is the interest rate (APR%) quoted by the lender for the loan? You should strive to get a low as possible rate"
                                              defaultValue={DEFAULT.mortgageRate}
                                              step={0.01}
@@ -161,7 +161,7 @@ export default class Comparison extends React.Component {
                                 />
 
                                 <SliderValue ref="downPayment"
-                                             info="Deposit"
+                                             info={`Deposit of £${mortgage.initialDeposit.abbr()}`}
                                              meta="How much is your deposit towards the house?"
                                              defaultValue={DEFAULT.downPayment}
                                              step={1}
@@ -183,8 +183,8 @@ export default class Comparison extends React.Component {
 
                             <div className="ui segment">
                                 <SliderValue ref="estateAgent"
-                                             info="Agent Selling Fees"
-                                             meta={`After living in the house for <b>${this.state.values.duration} years</b>`}
+                                             info={`Selling Agent Fees at ${values.estateAgent}%`}
+                                             meta={`After living in the house for ${this.state.values.duration} years, when selling the house, agents will charge a percentage of the new home value`}
                                              defaultValue={DEFAULT.estateAgent}
                                              step={0.1}
                                              desc="%"
@@ -193,7 +193,7 @@ export default class Comparison extends React.Component {
                                 />
 
                                 <SliderValue ref="stampDuty"
-                                             info={`Stamp Duty`}
+                                             info={`Stamp Duty at £${mortgage.stampValue.abbr()}`}
                                              meta="When you buy a house in the UK, you will have to pay a stamp duty tax which is a percentage of the property value"
                                              defaultValue={DEFAULT.stampDuty}
                                              step={0.1}
@@ -203,7 +203,7 @@ export default class Comparison extends React.Component {
                                 />
 
                                 <SliderValue ref="arrangment"
-                                             info="Arragement Fees"
+                                             info={`Mortgage Arragement Fees £${values.arrangment.abbr()}`}
                                              meta="Sometimes you will have to pay a mortgage fee to the broker"
                                              defaultValue={DEFAULT.arrangment}
                                              step={100}
@@ -214,12 +214,12 @@ export default class Comparison extends React.Component {
 
 
                                 <SliderValue ref="maintainance"
-                                             info="Home Maintenance"
+                                             info={`Home Maintenance at ${values.maintainance}%`}
                                              meta="How much as a percentage of your home do you think
                                              you will need for maintenance, this value is adjusted yearly with an increase of 2%
                                              for inflation"
                                              defaultValue={DEFAULT.maintainance}
-                                             step={0.1}
+                                             step={0.5}
                                              desc="%"
                                              min={1} max={10} type=""
                                              onChange={this.onFormSubmit.bind(this)}
@@ -238,10 +238,10 @@ export default class Comparison extends React.Component {
                             </div>
                             <div className="ui segment">
                                 <SliderValue ref="homePriceGrowth"
-                                             info="House Growth"
+                                             info={`Property Growth at ${values.homePriceGrowth}%`}
                                              meta="Property prices tend to rise in the UK, what is your anticipated rate?"
                                              defaultValue={DEFAULT.homePriceGrowth}
-                                             step={0.1}
+                                             step={0.5}
                                              desc="%"
                                              min={1} max={10} type=""
                                              onChange={this.onFormSubmit.bind(this)}
@@ -249,7 +249,7 @@ export default class Comparison extends React.Component {
 
                                 <SliderValue ref="rentDeposit"
                                              defaultValue={DEFAULT.rentDeposit}
-                                             info="Rent Deposit"
+                                             info={`Rent Deposit at ${values.rentDeposit} x £${mortgage.monthlyPayment.abbr()}`}
                                              meta="If you will be renting a similar house, what is the security deposit?"
                                              step={0.5}
                                              type="x"
@@ -259,7 +259,7 @@ export default class Comparison extends React.Component {
                                 />
 
                                 <SliderValue ref="rentGrowth"
-                                             info="Rental Growth"
+                                             info={`Rental Growth at ${values.rentGrowth}%`}
                                              meta="How much do you anticipate your rent will rise every year for a similar year?"
                                              defaultValue={DEFAULT.rentGrowth}
                                              step={0.5}
@@ -269,9 +269,9 @@ export default class Comparison extends React.Component {
 
                                 <SliderValue ref="investmentReturns"
                                              defaultValue={DEFAULT.investmentReturns}
-                                             info="Investment Return"
+                                             info={`Investment Return at ${values.investmentReturns}%`}
                                              meta="If you decided to invest or save your deposit money, what is you anticipated return on investment/savings"
-                                             step={0.1}
+                                             step={0.5}
                                              type=""
                                              desc="%"
                                              min={1} max={100}

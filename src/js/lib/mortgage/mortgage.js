@@ -15,7 +15,7 @@ const mortgage = function (opts) {
 
     const mortgageCost = monthlyPayment * mortgageDuration;
     const stampValue = (opts.stampDuty / 100) * opts.homeValue;
-    const buyingCost = opts.arrangment + opts.convency + opts.survey + stampValue;
+    const buyingCost = opts.arrangment + stampValue;
 
     const newHomeValue = compoundInterest(opts.homeValue, opts.homePriceGrowth, opts.duration);
 

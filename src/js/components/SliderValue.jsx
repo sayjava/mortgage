@@ -10,11 +10,13 @@ export default class SliderValue extends React.Component {
     }
 
     onValueChanged(newVal) {
-        this.setState({
-            newVal
-        });
 
-        this.props.onChange(newVal);
+        setTimeout(function(){
+            this.setState({
+                newVal
+            });
+            this.props.onChange(newVal);
+        }.bind(this),100)
     }
 
     getValue() {
@@ -33,7 +35,8 @@ export default class SliderValue extends React.Component {
     }
 
     render() {
-        const {defaultValue,min,max, desc, type, info, meta} = this.props;
+        const {defaultValue,min,max, desc, type, info, meta, step} = this.props;
+        const stepVar = step ? step : 1;
 
         function tipFormatter(val) {
             return `${type}${val.format()}${desc}`;
@@ -51,6 +54,7 @@ export default class SliderValue extends React.Component {
                             <Slider defaultValue={defaultValue}
                                     tipFormatter={tipFormatter}
                                     min={min} max={max}
+                                    step={stepVar}
                                     marks={this.getMarks()}
                                     included={false}
                                     onChange={this.onValueChanged.bind(this)} withBars>
