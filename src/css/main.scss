@@ -3,8 +3,27 @@
 @import "form";
 @import "results";
 
+
+#mainApp {
+  width: 100%;
+}
+
 .calculator-content {
-  .calculator {
-    padding: 0;
+  position: relative;
+  width: 100%;
+}
+
+.calculator {
+
+  .adjustments {
+    width: 750px;
+    margin-left: auto;
   }
+
+  .side-summary {
+    width: 350px;
+    margin-top: 50px !important;
+    margin-right: auto;
+  }
+
 }
