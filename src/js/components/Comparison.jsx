@@ -78,6 +78,7 @@ export default class Comparison extends React.Component {
     render() {
 
         //console.log(this.state.mortgage, this.state.rent);
+        let {mortgage,rent} = this.state;
 
         const customStyleObject = {
             position: 'fixed',
@@ -101,15 +102,15 @@ export default class Comparison extends React.Component {
                             <div className="info">
                                 <span className="ui header">Living Details</span>
                                 <span className="description">
-                                    How Long do you plan to stay at this location, This is very important because
-                                    it will greatly affect how better off you will be at the end of the loan term.
+                                    How Long do you plan to stay at this house, This is very important because
+                                    it will greatly affect how better off when you decide to trade the house for a new one or move on.
                                 </span>
                             </div>
 
                             <div className="ui segment">
                                 <SliderValue ref="duration"
                                              defaultValue={DEFAULT.duration}
-                                             info="Duration"
+                                             info="Duration of stay"
                                              meta="How long do you plan to stay in the house?"
                                              step={1}
                                              type=""
@@ -124,14 +125,14 @@ export default class Comparison extends React.Component {
                             <div className="info">
                                 <span className="ui header">Mortgage Details</span>
                                 <span className="description">
-                                    For a better calculation, enter as much details as you can here.
+                                    For a better calculation, adjust the values as accurate as possible.
                                 </span>
                             </div>
 
                             <div className="ui segment">
                                 <SliderValue ref="homeValue"
                                              info="Home Value"
-                                             meta="Whats the price of this house"
+                                             meta="Whats is the current advertised price of this house?"
                                              defaultValue={DEFAULT.homeValue}
                                              step={5000}
                                              desc=""
@@ -141,7 +142,7 @@ export default class Comparison extends React.Component {
 
                                 <SliderValue ref="mortgageTerm"
                                              info="Mortgage Term"
-                                             meta="The duration of the mortgage"
+                                             meta="How long is the mortgage for?"
                                              defaultValue={DEFAULT.mortgageTerm}
                                              step={1}
                                              desc=" years"
@@ -151,7 +152,7 @@ export default class Comparison extends React.Component {
 
                                 <SliderValue ref="mortgageRate"
                                              info="Rate"
-                                             meta="The interest rate (APR%) quoted by the lender"
+                                             meta="What is the interest rate (APR%) quoted by the lender for the loan? You should strive to get a low as possible rate"
                                              defaultValue={DEFAULT.mortgageRate}
                                              step={0.01}
                                              desc="%"
@@ -161,7 +162,7 @@ export default class Comparison extends React.Component {
 
                                 <SliderValue ref="downPayment"
                                              info="Deposit"
-                                             meta="The percentage of your deposit of the home value"
+                                             meta="How much is your deposit towards the house?"
                                              defaultValue={DEFAULT.downPayment}
                                              step={1}
                                              desc="%"
@@ -175,13 +176,15 @@ export default class Comparison extends React.Component {
                         <div className="field-input">
                             <div className="info">
                                 <span className="ui header">Expenses</span>
-                                <span className="description">Mortgages unfortunately comes with fees</span>
+                                <span className="description">Owning a house comes with expenses, these expenses
+                                    are factored into the overall cost during the duration of your stay at your house.
+                                </span>
                             </div>
 
                             <div className="ui segment">
                                 <SliderValue ref="estateAgent"
                                              info="Agent Selling Fees"
-                                             meta={`After living in the house for ${this.state.values.duration} years, what is the closing cost? `}
+                                             meta={`After living in the house for <b>${this.state.values.duration} years</b>`}
                                              defaultValue={DEFAULT.estateAgent}
                                              step={0.1}
                                              desc="%"
@@ -191,7 +194,7 @@ export default class Comparison extends React.Component {
 
                                 <SliderValue ref="stampDuty"
                                              info={`Stamp Duty`}
-                                             meta="When you buy a house, you will pay a stamp duty tax which is a percentage of the home value"
+                                             meta="When you buy a house in the UK, you will have to pay a stamp duty tax which is a percentage of the property value"
                                              defaultValue={DEFAULT.stampDuty}
                                              step={0.1}
                                              desc="%"
@@ -201,7 +204,7 @@ export default class Comparison extends React.Component {
 
                                 <SliderValue ref="arrangment"
                                              info="Arragement Fees"
-                                             meta="Often you will have to pay a mortgage fee to the broker"
+                                             meta="Sometimes you will have to pay a mortgage fee to the broker"
                                              defaultValue={DEFAULT.arrangment}
                                              step={100}
                                              desc=""
@@ -212,9 +215,9 @@ export default class Comparison extends React.Component {
 
                                 <SliderValue ref="maintainance"
                                              info="Home Maintenance"
-                                             meta="Owning a home do costs, how much as a percentage of you home do you think
-                                             you will need to for maintenance, this value is adjusted yearly with an increase of 2%
-                                             of inflation"
+                                             meta="How much as a percentage of your home do you think
+                                             you will need for maintenance, this value is adjusted yearly with an increase of 2%
+                                             for inflation"
                                              defaultValue={DEFAULT.maintainance}
                                              step={0.1}
                                              desc="%"
@@ -230,14 +233,13 @@ export default class Comparison extends React.Component {
                             <div className="info">
                                 <span className="ui header">Future Assumptions</span>
                                 <span className="description">
-                                    A very important factor, but not the only one. Our estimate will
-                                    improve as you enter more details below.
+                                    Here you can make some simple future assumptions about property price growth, investments, rental growth e.t.c.
                                 </span>
                             </div>
                             <div className="ui segment">
                                 <SliderValue ref="homePriceGrowth"
                                              info="House Growth"
-                                             meta="Every year, house prices rise in the UK, whats the growth you anticipate yearly?"
+                                             meta="Property prices tend to rise in the UK, what is your anticipated rate?"
                                              defaultValue={DEFAULT.homePriceGrowth}
                                              step={0.1}
                                              desc="%"
@@ -258,7 +260,7 @@ export default class Comparison extends React.Component {
 
                                 <SliderValue ref="rentGrowth"
                                              info="Rental Growth"
-                                             meta="How much do you anticipate your rent will rise every year?"
+                                             meta="How much do you anticipate your rent will rise every year for a similar year?"
                                              defaultValue={DEFAULT.rentGrowth}
                                              step={0.5}
                                              desc="%"
@@ -268,7 +270,7 @@ export default class Comparison extends React.Component {
                                 <SliderValue ref="investmentReturns"
                                              defaultValue={DEFAULT.investmentReturns}
                                              info="Investment Return"
-                                             meta="If you decided to invest or save your money, whats you anticipated return on investment"
+                                             meta="If you decided to invest or save your deposit money, what is you anticipated return on investment/savings"
                                              step={0.1}
                                              type=""
                                              desc="%"

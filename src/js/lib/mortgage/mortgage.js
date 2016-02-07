@@ -51,6 +51,7 @@ const mortgage = function (opts) {
     }());
 
     // we need to factor in the sales commision
+    const sellingCost = ((opts.estateAgent / 100)) * newHomeValue;
     const netNewValue = (1 - (opts.estateAgent / 100)) * newHomeValue;
     const outstandingLoan = mortgageValue - paidBack.paidPrincipal;
     const totalCost = buyingCost + paidBack.paidInterest + maintainanceCost;
@@ -77,6 +78,7 @@ const mortgage = function (opts) {
         profit,
         stampValue,
         maintainanceCost,
+        sellingCost,
         profit: profit + initialDeposit
     }
 };
