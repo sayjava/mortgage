@@ -10,12 +10,12 @@ export default class Summary extends React.Component {
             if(cashAtHand < 0) {
                 return (
                     <span>
-                         you will be better off by <b> £{Math.abs(cashAtHand).format(0)}</b> renting a similar house.
+                         you will be better off by <b> £{Math.abs(cashAtHand).format(0)} RENTING </b> a similar house.
                     </span>
                 )
             } else {
                 return (<span>
-                    you will be better off by <b> £{Math.abs((cashAtHand)).format(0)}</b> buying the house.
+                    you will be better off by <b> £{Math.abs((cashAtHand)).format(0)} BUYING </b> the house.
                 </span>)
             }
         }
