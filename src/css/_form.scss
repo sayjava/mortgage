@@ -67,6 +67,7 @@
   .meta {
     display: block;
     font-size: 12px;
+    line-height: 20px;
     padding: 10px 0;
   }
 }
@@ -107,7 +108,7 @@
   width: 20px;
   height: 20px;
   cursor: pointer;
-  border-radius: 0;
+  border-radius: 50%;
   border: solid 2px $theme_colour;
   background-color: $theme_colour;
   z-index: 2;
@@ -124,7 +125,7 @@
 
 .rc-slider-mark {
   position: absolute;
-  top: 10px;
+  top: 20px;
   left: 0;
   width: 100%;
   font-size: 12px;
@@ -137,6 +138,7 @@
   vertical-align: middle;
   text-align: center;
   cursor: pointer;
+  font-weight: 600;
   color: #999;
 }
 
@@ -342,8 +344,9 @@
   color: #fff;
   text-align: center;
   text-decoration: none;
-  background-color: #6c6c6c;
+  background-color: $theme_colour;
   border-radius: 0;
+  font-weight: 600;
   box-shadow: 0 0 4px #d9d9d9;
 }
 
@@ -360,5 +363,5 @@
   left: 50%;
   margin-left: -4px;
   border-width: 4px 4px 0;
-  border-top-color: #6c6c6c;
+  border-top-color: $theme_colour;
 }
