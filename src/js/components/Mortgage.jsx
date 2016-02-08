@@ -5,9 +5,6 @@ const DEFAULT_RATE = 6.75;
 const DEFAULT_PRINCIPAL = 200000;
 const DEFAULT_TERM = 30;
 
-const i10nGBP = new Intl.NumberFormat("en-GB", {style: "currency", currency: "GBP"});
-const i10nEN = new Intl.NumberFormat("en-GB");
-
 export default class Amortization extends React.Component {
 
     constructor(props) {
@@ -58,15 +55,15 @@ export default class Amortization extends React.Component {
     }
 
     render() {
-        const result = i10nGBP.format(this.state.result);
+        const result = (this.state.result.format());
         return (
             <div className="ui segment calculator">
                 <h5 className="ui header">Mortgage Calculator</h5>
                 <form onSubmit={this.onSubmit.bind(this)} className="ui form">
                     <p className="field">
                         <label htmlFor="principal">Home Value</label>
-                        <input ref="principal" defaultValue={i10nEN.format(this.state.principal) || ''}
-                               value={i10nEN.format(this.state.principal) || ''}
+                        <input ref="principal" defaultValue={(this.state.principal.format()) || ''}
+                               value={(this.state.principal.format()) || ''}
                                onChange={this.onMoneyEntered.bind(this)}/>
                     </p>
 

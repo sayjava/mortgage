@@ -1,4 +1,6 @@
-@import "semantic";
+@import "semantic/globals/all";
+@import "semantic/collections/grid";
+@import "semantic/collections/segment";
 @import "base";
 @import "form";
 @import "results";
