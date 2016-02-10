@@ -8,7 +8,7 @@ import Sticky from 'react-sticky';
 
 const DEFAULT = {
     homeValue: 350000,
-    duration: 7,
+    duration: 30,
     rent: 1000,
     insurance: 2,
     mortgageRate: 3.87,
@@ -198,7 +198,7 @@ export default class Comparison extends React.Component {
                                              defaultValue={DEFAULT.stampDuty}
                                              step={0.1}
                                              desc="%"
-                                             min={1} max={15} type=""
+                                             min={0} max={15} type=""
                                              onChange={this.onFormSubmit.bind(this)}
                                 />
 
