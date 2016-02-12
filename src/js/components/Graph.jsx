@@ -4,48 +4,81 @@ import React from 'react';
 
 export default class Graph extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.updateChart = function (nextProps) {
+            let columns = this.createColumns(nextProps);
+            this.chart.load({
+                columns: [columns.mortgage, columns.rent]
+            });
+        }.bind(this).throttle(1000);
+
+    }
+
     componentWillReceiveProps(nextProps) {
-        let columns = this.createColumns(nextProps);
-        this.chart.load({
-            columns: [columns.capital, columns.capital]
-        });
+        this.updateChart(nextProps);
     }
 
     componentDidMount() {
-
         let columns = this.createColumns(this.props);
 
         this.chart = c3.generate({
             bindto: '#chart',
             data: {
                 columns: [
-                    columns.netCash,
-                    columns.capital
+                    columns.mortgage,
+                    columns.rent
                 ]
+            },
+            tooltip: {
+                format: {
+                    title: function (x) {
+                        return 'Year ' + (x + 1);
+                    },
+                    value: function (value) {
+                        return '£' + Math.round(value).format();
+                    }
+                }
+            },
+            axis: {
+                y: {
+                    label: 'Net Worth',
+                    tick: {
+                        format: function (d) {
+                            return '£' + d.format();
+                        }
+                    }
+                }
             }
         });
+
+        window.chart = this.chart;
     }
 
-    createColumns(props) {
-        let netCash = props.mortgage.periods.map(p => p.netCash);
-        netCash.unshift('cash');
+    shouldComponentUpdate() {
+        return false;
+    }
 
-        let capital = props.mortgage.periods.map(p => p.remainingCapital);
-        capital.unshift('capital');
+
+    createColumns(props) {
+        let mortgage = props.mortgage.periods.map(p => p.netCash);
+        mortgage.unshift('mortgage');
+
+        let rent = props.rent.periods.map(p => p.netCash);
+        rent.unshift('rent');
 
         return {
-            capital,
-            netCash
+            mortgage,
+            rent
         };
     }
 
+
     render() {
         return (
-            <div>
-                <h3>The Chart</h3>
-                <div id="chart">
 
-                </div>
+            <div id="chart">
             </div>
         )
     }

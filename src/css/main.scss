@@ -1,10 +1,11 @@
 @import "semantic/globals/all";
 @import "semantic/collections/grid";
 @import "semantic/collections/segment";
+@import "semantic/collections/table";
+@import "../../node_modules/c3/src/scss/main";
 @import "base";
 @import "form";
 @import "results";
-
 
 #mainApp {
   width: 100%;
@@ -13,19 +14,36 @@
 .calculator-content {
   position: relative;
   width: 100%;
+  padding: 40px;
 }
 
 .calculator {
 
   .adjustments {
-    width: 750px;
-    margin-left: auto;
+    max-width: 800px;
+    margin: auto;
   }
 
   .side-summary {
     width: 350px;
     margin-top: 50px !important;
     margin-right: auto;
+  }
+
+  #chart {
+    display: block;
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+    background: #fff;
+    z-index: 1000000;
+  }
+
+  .chart-container {
+    .content {
+      max-width: 800px;
+      margin: auto;
+    }
   }
 
 }

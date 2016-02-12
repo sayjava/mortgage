@@ -3,18 +3,19 @@ import Summary from './Summary.jsx';
 import {mortgage} from '../lib/mortgage/mortgage';
 import {rent} from '../lib/mortgage/rent';
 import SliderValue from './SliderValue.jsx';
+import Graph from './Graph.jsx';
 
 import Sticky from 'react-sticky';
 
 const DEFAULT = {
     homeValue: 350000,
-    duration: 30,
+    duration: 10,
     rent: 1000,
     insurance: 2,
     mortgageRate: 3.87,
     mortgageTerm: 30,
     downPayment: 10,
-    homePriceGrowth: 3,
+    homePriceGrowth: 2.4,
     rentGrowth: 2,
     inflation: 2,
     stampDuty: 3.2,
@@ -30,7 +31,7 @@ const DEFAULT = {
     leaseHold: 90,
     rentDeposit: 2,
     maintainance: 1,
-    investmentReturns: 2
+    investmentReturns: 5.8
 };
 
 export default class Comparison extends React.Component {
@@ -75,6 +76,26 @@ export default class Comparison extends React.Component {
         evt.preventDefault ? evt.preventDefault() : '';
     }
 
+    getBreakEvenYear(props) {
+        let {rent, mortgage} = props;
+        let rentPeriod, mortgagePeriod, year;
+
+        for (year = 0; year < rent.periods.length; year++) {
+            rentPeriod = rent.periods[year];
+            mortgagePeriod = mortgage.periods[year];
+
+            if (mortgagePeriod.netCash > rentPeriod.netCash) {
+                break;
+            }
+        }
+
+        return {
+            rentPeriod,
+            mortgagePeriod,
+            year
+        };
+    }
+
     render() {
 
         //console.log(this.state.mortgage, this.state.rent);
@@ -82,7 +103,10 @@ export default class Comparison extends React.Component {
 
         const customStyleObject = {
             position: 'fixed',
-            top: '0'
+            top: '0',
+            left: '0',
+            zIndex: 1000,
+            width:'100%'
         };
 
         const defaultStyle = {
@@ -93,9 +117,22 @@ export default class Comparison extends React.Component {
         };
 
         return (
-            <div className="calculator ui grid">
+            <div className="calculator">
 
-                <div className="eleven wide column">
+
+                    <Sticky stickyStyle={customStyleObject} topOffset={0}>
+                        <div className="ui container chart-container">
+                            <div className="ui segment content">
+                                <Graph mortgage={mortgage} rent={rent} duration={values.duration}/>
+                                <div>
+                                    <h5>The summary</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </Sticky>
+
+
+                <div className="ui container">
                     <div className="adjustments">
 
                         <div className="field-input">
@@ -283,43 +320,44 @@ export default class Comparison extends React.Component {
                     </div>
                 </div>
 
-                <div className="four wide column">
-                    <Sticky stickyStyle={customStyleObject} style={defaultStyle} topOffset={-550}
-                            stickyClass="stickySummary"
-                            onStickyStateChange={this.handleStickyStateChange.bind(this)}>
+                {/*<div className="four wide column">
+                 <Sticky stickyStyle={customStyleObject} style={defaultStyle} topOffset={-550}
+                 stickyClass="stickySummary"
+                 onStickyStateChange={this.handleStickyStateChange.bind(this)}>
 
-                        <div className="side-summary ui segment">
-                            <div className="ui header">
-                                After <b>{this.state.values.duration}</b> Years
-                            </div>
-                            <table className="ui very basic table">
-                                <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td>Mortgage</td>
-                                    <td>Rent</td>
-                                </tr>
-                                <tr>
-                                    <td>Initial Cost</td>
-                                    <td>£{(this.state.mortgage.initialCost).format(2)}</td>
-                                    <td>£{(this.state.rent.initialCost).format(2)}</td>
-                                </tr>
-                                <tr>
-                                    <td>Monthly Cost</td>
-                                    <td>£{(this.state.mortgage.monthlyPayment).format(2)}</td>
-                                    <td>£{(this.state.mortgage.monthlyPayment).format(2)}</td>
-                                </tr>
-                                <tr>
-                                    <td>Cash</td>
-                                    <td>£{(this.state.mortgage.profit).format(2)}</td>
-                                    <td>£{(this.state.rent.profit).format(2)}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <Summary rent={this.state.rent} mortgage={this.state.mortgage} values={this.state.values}/>
-                        </div>
-                    </Sticky>
-                </div>
+                 <div className="side-summary ui segment">
+                 <div className="ui header">
+                 After <b>{this.state.values.duration}</b> Years
+                 </div>
+                 <table className="ui very basic table">
+                 <tbody>
+                 <tr>
+                 <td></td>
+                 <td>Mortgage</td>
+                 <td>Rent</td>
+                 </tr>
+                 <tr>
+                 <td>Initial Cost</td>
+                 <td>£{(this.state.mortgage.initialCost).format(2)}</td>
+                 <td>£{(this.state.rent.initialCost).format(2)}</td>
+                 </tr>
+                 <tr>
+                 <td>Monthly Cost</td>
+                 <td>£{(this.state.mortgage.monthlyPayment).format(2)}</td>
+                 <td>£{(this.state.mortgage.monthlyPayment).format(2)}</td>
+                 </tr>
+                 <tr>
+                 <td>Cash</td>
+                 <td>£{(this.state.mortgage.profit).format(2)}</td>
+                 <td>£{(this.state.rent.profit).format(2)}</td>
+                 </tr>
+                 </tbody>
+                 </table>
+                 <Summary rent={this.state.rent} mortgage={this.state.mortgage} values={this.state.values}/>
+                 </div>
+                 </Sticky>
+                 </div>*/}
+
 
             </div>
         )

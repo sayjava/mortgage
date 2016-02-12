@@ -35,7 +35,7 @@ function periodicMortgatePayment(principal, rate, term, periods = 1) {
 function valueSchedule(amortized, initialDeposit, buyingCost, opts) {
     // yearly net worth
     return amortized.inGroupsOf(12).map((payments, year) => {
-        const houseAppr = compoundInterest(opts.homeValue, opts.homePriceGrowth, year);
+        const houseAppr = compoundInterest(opts.homeValue, opts.homePriceGrowth-opts.inflation, year);
         const lastPayment = payments.last();
 
         // agent fees
@@ -49,8 +49,8 @@ function valueSchedule(amortized, initialDeposit, buyingCost, opts) {
 
         // pay back the bank
         const netCash = netHouseValue - lastPayment.remainingCapital;
-        lastPayment.netCash = netCash;
-        lastPayment.gain = netCash - (initialDeposit + buyingCost);
+
+        lastPayment.netCash = netCash - (initialDeposit + buyingCost);
 
         return lastPayment;
     });
