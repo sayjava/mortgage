@@ -3,29 +3,29 @@ import React from 'react';
 export default class Summary extends React.Component {
 
     render(){
-        const {mortgage, rent, values} = this.props;
+        const {mortgage, rent, values, breakEven} = this.props;
 
         function verdict(){
-            let cashAtHand = mortgage.profit-rent.profit;
+            let cashAtHand = breakEven.mortgagePeriod.netCash - breakEven.rentPeriod.netCash;
             if(cashAtHand < 0) {
                 return (
-                    <span>
-                         you will be better off by <b> £{Math.abs(cashAtHand).format(0)} RENTING </b> a similar house.
+                    <span className="buying">
+                         you will be better off by <span className="verdict"> £{Math.abs(cashAtHand).format(0)} RENTING </span> a similar house.
                     </span>
                 )
             } else {
-                return (<span>
-                    you will be better off by <b> £{Math.abs((cashAtHand)).format(0)} BUYING </b> the house.
+                return (<span className="renting">
+                    you will be better off by <span className="verdict"> £{Math.abs((cashAtHand)).format(0)} BUYING </span>.
                 </span>)
             }
         }
 
         return (
             <div className="summary">
-                <span className="ui header">Summary</span>
+                <h3 className="ui header">Summary</h3>
                 <p className="text">
-                    If you buy a house for <b>£{values.homeValue.format(0)}</b>, paying a monthly mortgage of <b> £{Math.round(mortgage.monthlyPayment).format()} </b>
-                    and sell the house after <b>{values.duration} years</b>, {verdict()}
+                    If you buy a house for <span className="value">£{values.homeValue.format(0)}</span>, paying a monthly mortgage of <b> £{Math.round(mortgage.monthlyPayment).format()} </b>
+                    and sell the house after <span className="value">{values.duration} years</span>, {verdict()}
                 </p>
             </div>
         )

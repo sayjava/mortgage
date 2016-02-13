@@ -51,7 +51,11 @@ export default class Comparison extends React.Component {
         this.setState({
             mortgage: mortgageCalc,
             rent: rentCalc,
-            values: newValue
+            values: newValue,
+            breakEven: this.getBreakEvenYear({
+                mortgage:mortgageCalc,
+                rent: rentCalc
+            })
         });
     }
 
@@ -125,7 +129,7 @@ export default class Comparison extends React.Component {
                             <div className="ui segment content">
                                 <Graph mortgage={mortgage} rent={rent} duration={values.duration}/>
                                 <div>
-                                    <h5>The summary</h5>
+                                    <Summary rent={this.state.rent} mortgage={this.state.mortgage} values={this.state.values} breakEven={this.state.breakEven}/>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +144,8 @@ export default class Comparison extends React.Component {
                                 <span className="ui header">Living Details</span>
                                 <span className="description">
                                     How Long do you plan to stay at this house, This is very important because
-                                    it will greatly affect how better off when you decide to trade the house for a new one or move on.
+                                    it will greatly affect how better off when you decide to trade the house
+                                    for a new one or move on.
                                 </span>
                             </div>
 

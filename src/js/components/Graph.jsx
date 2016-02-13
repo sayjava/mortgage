@@ -9,11 +9,17 @@ export default class Graph extends React.Component {
 
         this.updateChart = function (nextProps) {
             let columns = this.createColumns(nextProps);
-            this.chart.load({
-                columns: [columns.mortgage, columns.rent]
-            });
-        }.bind(this).throttle(1000);
+            let breakEven = this.getBreakEvenYear(this.props);
 
+
+            this.chart.load({
+                columns: [columns.mortgage, columns.rent],
+                regions: {'mortgage': [{start: 0, end: breakEven.year - 1, 'style': 'dashed'}]}
+            });
+
+            this.chart.regions({'mortgage': [{start: 0, end: breakEven.year - 1, 'style': 'dashed'}]});
+
+        }.bind(this).throttle(1000);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -22,14 +28,20 @@ export default class Graph extends React.Component {
 
     componentDidMount() {
         let columns = this.createColumns(this.props);
+        //let breakEven = this.createEvenColoumn(this.props);
+
+        let breakEven = this.getBreakEvenYear(this.props);
 
         this.chart = c3.generate({
             bindto: '#chart',
             data: {
                 columns: [
                     columns.mortgage,
-                    columns.rent
-                ]
+                    columns.rent,
+                    breakEven
+                ],
+                regions: {'mortgage': [{start: 0, end: breakEven.year - 1, 'style': 'dashed'}]}
+
             },
             tooltip: {
                 format: {
@@ -49,11 +61,28 @@ export default class Graph extends React.Component {
                             return '£' + d.format();
                         }
                     }
+                },
+                x: {
+                    label: 'Years',
+                    tick: {
+                        format: function (d) {
+                            return d + 1;
+                        }
+                    }
                 }
             }
         });
+    }
 
-        window.chart = this.chart;
+    createEvenColoumn(props) {
+        let breakEvenYear = this.getBreakEvenYear(props);
+
+        let even = ['even'];
+        for (var i = 0; i < props.mortgage.periods.length; i++) {
+            even.push(0);
+        }
+        even[breakEvenYear.year] = 100000;
+        return even;
     }
 
     shouldComponentUpdate() {
@@ -63,14 +92,34 @@ export default class Graph extends React.Component {
 
     createColumns(props) {
         let mortgage = props.mortgage.periods.map(p => p.netCash);
-        mortgage.unshift('mortgage');
+        mortgage.unshift('Mortgage');
 
         let rent = props.rent.periods.map(p => p.netCash);
-        rent.unshift('rent');
+        rent.unshift('Renting');
 
         return {
             mortgage,
             rent
+        };
+    }
+
+    getBreakEvenYear(props) {
+        let {rent, mortgage} = props;
+        let rentPeriod, mortgagePeriod, year;
+
+        for (year = 0; year < rent.periods.length; year++) {
+            rentPeriod = rent.periods[year];
+            mortgagePeriod = mortgage.periods[year];
+
+            if (mortgagePeriod.netCash > rentPeriod.netCash) {
+                break;
+            }
+        }
+
+        return {
+            rentPeriod,
+            mortgagePeriod,
+            year
         };
     }
 
