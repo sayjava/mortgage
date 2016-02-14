@@ -1,3 +1,27 @@
 circle.c3-circle {
   stroke-width: 71;
 }
+
+.c3-legend-item-event {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+}
+
+#chart {
+  .c3 text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+  }
+
+  .c3-axis-y-label, .c3-axis-x-label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+  }
+
+  .tick, .c3-legend-item {
+    text {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12px;
+    }
+  }
+}

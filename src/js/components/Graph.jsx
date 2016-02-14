@@ -47,7 +47,7 @@ export default class Graph extends React.Component {
             tooltip: {
                 format: {
                     title: function (x) {
-                        return 'Year ' + (x + 1);
+                        return  (x + 1).ordinalize() + ' Year';
                     },
                     value: function (value) {
                         return '£' + Math.round(value).format();
