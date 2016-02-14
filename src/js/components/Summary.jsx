@@ -3,7 +3,7 @@ import React from 'react';
 export default class Summary extends React.Component {
 
     render(){
-        const {mortgage, values, durationValue} = this.props;
+        const {mortgage, values, durationValue, breakEven} = this.props;
 
         function verdict(){
 
@@ -29,6 +29,10 @@ export default class Summary extends React.Component {
                     If you bought a property for <span className="value">£{values.homeValue.format(0)}</span>, paying a monthly mortgage of <span className="value"> £{Math.round(mortgage.monthlyPayment).format()} </span>
                     and sell the property after <span className="value">{values.duration} years</span>, {verdict()} compared to renting
                     a similar property.
+                </p>
+                <p className="text">
+                    It will be better to sell the house after the <span className="value">{breakEven.year.ordinalize()} year </span> of ownership based on the values
+                    you have set below. You can change those values below using the sliders to accurately reflect your situation.
                 </p>
             </div>
         )
