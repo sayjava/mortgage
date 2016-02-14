@@ -19,8 +19,7 @@ const mortgage = function (opts) {
         initialDeposit,
         monthlyPayment,
         stampValue,
-        periods,
-        profit: initialDeposit
+        periods
     }
 };
 

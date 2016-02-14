@@ -1,5 +1,6 @@
 import React from 'react';
 import Summary from './Summary.jsx';
+import SummaryTable from './SummaryTable.jsx';
 import {mortgage} from '../lib/mortgage/mortgage';
 import {rent} from '../lib/mortgage/rent';
 import SliderValue from './SliderValue.jsx';
@@ -48,7 +49,7 @@ export default class Comparison extends React.Component {
         const rentCalc = rent(newValue, mortgageCalc.initialCost);
 
         const opts = {
-            mortgage:mortgageCalc,
+            mortgage: mortgageCalc,
             rent: rentCalc
         };
 
@@ -66,11 +67,11 @@ export default class Comparison extends React.Component {
         let {rent, mortgage} = opts;
         for (let year = 0; year < rent.periods.length; year++) {
 
-            if(duration === (year + 1)) {
+            if (duration === (year + 1)) {
                 return {
                     mortgage: mortgage.periods[year],
                     rent: rent.periods[year],
-                    year
+                    year: (year + 1)
                 }
             }
         }
@@ -113,7 +114,7 @@ export default class Comparison extends React.Component {
         return {
             rentPeriod,
             mortgagePeriod,
-            year
+            year: (year + 1)
         };
     }
 
@@ -125,9 +126,9 @@ export default class Comparison extends React.Component {
         const customStyleObject = {
             position: 'fixed',
             top: '0',
-            left: '0',
+            left: '2%',
             zIndex: 1000,
-            width:'100%'
+            width: '47%'
         };
 
         const defaultStyle = {
@@ -138,24 +139,29 @@ export default class Comparison extends React.Component {
         };
 
         return (
-            <div className="calculator">
+            <div className="calculator ui grid">
 
-
+                <div className="eight wide column">
                     <Sticky stickyStyle={customStyleObject} topOffset={0}>
                         <div className="ui container chart-container">
                             <div className="ui segment content">
                                 <Graph mortgage={mortgage} rent={rent} duration={values.duration}/>
                                 <div>
-                                    <Summary rent={this.state.rent} mortgage={this.state.mortgage} values={this.state.values} breakEven={this.state.breakEven} durationValue={this.state.durationValue} />
+                                    <Summary rent={this.state.rent} mortgage={this.state.mortgage}
+                                             values={this.state.values} breakEven={this.state.breakEven}
+                                             durationValue={this.state.durationValue}/>
+                                    <SummaryTable rent={this.state.rent} mortgage={this.state.mortgage}
+                                                  values={this.state.values} breakEven={this.state.breakEven}
+                                                  durationValue={this.state.durationValue}/>
                                 </div>
                             </div>
                         </div>
                     </Sticky>
+                </div>
 
 
-                <div className="ui container">
+                <div className="ui eight wide column container">
                     <div className="adjustments">
-
                         <div className="field-input">
                             <div className="info">
                                 <span className="ui header">Living Details</span>
@@ -341,44 +347,6 @@ export default class Comparison extends React.Component {
 
                     </div>
                 </div>
-
-                {/*<div className="four wide column">
-                 <Sticky stickyStyle={customStyleObject} style={defaultStyle} topOffset={-550}
-                 stickyClass="stickySummary"
-                 onStickyStateChange={this.handleStickyStateChange.bind(this)}>
-
-                 <div className="side-summary ui segment">
-                 <div className="ui header">
-                 After <b>{this.state.values.duration}</b> Years
-                 </div>
-                 <table className="ui very basic table">
-                 <tbody>
-                 <tr>
-                 <td></td>
-                 <td>Mortgage</td>
-                 <td>Rent</td>
-                 </tr>
-                 <tr>
-                 <td>Initial Cost</td>
-                 <td>£{(this.state.mortgage.initialCost).format(2)}</td>
-                 <td>£{(this.state.rent.initialCost).format(2)}</td>
-                 </tr>
-                 <tr>
-                 <td>Monthly Cost</td>
-                 <td>£{(this.state.mortgage.monthlyPayment).format(2)}</td>
-                 <td>£{(this.state.mortgage.monthlyPayment).format(2)}</td>
-                 </tr>
-                 <tr>
-                 <td>Cash</td>
-                 <td>£{(this.state.mortgage.profit).format(2)}</td>
-                 <td>£{(this.state.rent.profit).format(2)}</td>
-                 </tr>
-                 </tbody>
-                 </table>
-                 <Summary rent={this.state.rent} mortgage={this.state.mortgage} values={this.state.values}/>
-                 </div>
-                 </Sticky>
-                 </div>*/}
 
 
             </div>
