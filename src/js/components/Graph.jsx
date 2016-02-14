@@ -28,7 +28,6 @@ export default class Graph extends React.Component {
 
     componentDidMount() {
         let columns = this.createColumns(this.props);
-        //let breakEven = this.createEvenColoumn(this.props);
 
         let breakEven = this.getBreakEvenYear(this.props);
 
@@ -39,9 +38,11 @@ export default class Graph extends React.Component {
                     columns.mortgage,
                     columns.rent,
                     breakEven
-                ],
+                ],selection: {
+                    grouped: true
+                },
+                type: 'bar',
                 regions: {'mortgage': [{start: 0, end: breakEven.year - 1, 'style': 'dashed'}]}
-
             },
             tooltip: {
                 format: {
@@ -74,21 +75,9 @@ export default class Graph extends React.Component {
         });
     }
 
-    createEvenColoumn(props) {
-        let breakEvenYear = this.getBreakEvenYear(props);
-
-        let even = ['even'];
-        for (var i = 0; i < props.mortgage.periods.length; i++) {
-            even.push(0);
-        }
-        even[breakEvenYear.year] = 100000;
-        return even;
-    }
-
     shouldComponentUpdate() {
         return false;
     }
-
 
     createColumns(props) {
         let mortgage = props.mortgage.periods.map(p => p.netCash);

@@ -16,10 +16,17 @@
     z-index: 1000;
   }
 
-  .summary {
-    .text {
-      font-size: 14px;
-    }
+}
+
+.summary {
+
+  p.text {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .verdict, .value {
+    font-weight: 700;
   }
 
 }
