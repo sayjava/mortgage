@@ -47,16 +47,33 @@ export default class Comparison extends React.Component {
         newValue.rent = mortgageCalc.monthlyPayment;
         const rentCalc = rent(newValue, mortgageCalc.initialCost);
 
+        const opts = {
+            mortgage:mortgageCalc,
+            rent: rentCalc
+        };
+
         // update the cost here
         this.setState({
             mortgage: mortgageCalc,
             rent: rentCalc,
             values: newValue,
-            breakEven: this.getBreakEvenYear({
-                mortgage:mortgageCalc,
-                rent: rentCalc
-            })
+            breakEven: this.getBreakEvenYear(opts),
+            durationValue: this.valueAtDuration(opts, newValue.duration)
         });
+    }
+
+    valueAtDuration(opts, duration) {
+        let {rent, mortgage} = opts;
+        for (let year = 0; year < rent.periods.length; year++) {
+
+            if(duration === (year + 1)) {
+                return {
+                    mortgage: mortgage.periods[year],
+                    rent: rent.periods[year],
+                    year
+                }
+            }
+        }
     }
 
     handleStickyStateChange(floating) {
@@ -129,7 +146,7 @@ export default class Comparison extends React.Component {
                             <div className="ui segment content">
                                 <Graph mortgage={mortgage} rent={rent} duration={values.duration}/>
                                 <div>
-                                    <Summary rent={this.state.rent} mortgage={this.state.mortgage} values={this.state.values} breakEven={this.state.breakEven}/>
+                                    <Summary rent={this.state.rent} mortgage={this.state.mortgage} values={this.state.values} breakEven={this.state.breakEven} durationValue={this.state.durationValue} />
                                 </div>
                             </div>
                         </div>

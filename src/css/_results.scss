@@ -1,3 +1,4 @@
+@import "colours";
 .calc-results {
 
   >.ui.segment {
@@ -27,6 +28,7 @@
 
   .verdict, .value {
     font-weight: 700;
+    color: $theme_colour;
   }
 
 }
