@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "serve": "webpack-dev-server --inline --content-base src/",
-    "deploy": "webpack -p --config webpack.config.deploy.js"
+    "deploy": "cp src/index.html dist/index.html && webpack -p --config webpack.config.deploy.js",
+    "copy" : "cp src/index.html dist/index.html"
   },
   "author": "",
   "license": "ISC",
